@@ -7,7 +7,9 @@ A Lindenmayer System visualiser — watch fractal plants grow branch by branch i
 
 ## Demo
 
-<!-- Add demo GIF here before merging to main -->
+| Fractal Plant | Lévy C Curve |
+|:---:|:---:|
+| ![Fractal Plant](output/1-fractal-plant.gif) | ![Lévy C Curve](output/7-levy-c-curve.gif) |
 
 ## Overview
 

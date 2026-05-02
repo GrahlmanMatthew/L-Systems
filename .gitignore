@@ -15,9 +15,11 @@ dist/
 build/
 *.egg-info/
 
-# Output (keep folder, ignore contents)
+# Output — ignore generated screenshots, commit demo assets explicitly
 output/*
 !output/.gitkeep
+!output/*.gif
+!output/*.png
 
 # OS
 .DS_Store
