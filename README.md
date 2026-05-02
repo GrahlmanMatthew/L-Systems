@@ -7,9 +7,17 @@ A Lindenmayer System visualiser — watch fractal plants grow branch by branch i
 
 ## Demo
 
-| Fractal Plant | Lévy C Curve |
-|:---:|:---:|
-| ![Fractal Plant](output/1-fractal-plant.gif) | ![Lévy C Curve](output/7-levy-c-curve.gif) |
+| Fractal Plant | Fractal Tree | Fern |
+|:---:|:---:|:---:|
+| ![Fractal Plant](output/1-fractal-plant.gif) | ![Fractal Tree](output/2-fractal-tree.gif) | ![Fern](output/3-fern.gif) |
+
+| Sierpinski Triangle | Koch Snowflake | Dragon Curve |
+|:---:|:---:|:---:|
+| ![Sierpinski Triangle](output/4-sierpinski-triangle.gif) | ![Koch Snowflake](output/5-koch-snowflake.gif) | ![Dragon Curve](output/6-dragon-curve.gif) |
+
+| Lévy C Curve | Algae Bush | Hilbert Curve | Crystal |
+|:---:|:---:|:---:|:---:|
+| ![Lévy C Curve](output/7-levy-c-curve.gif) | ![Algae Bush](output/8-algae-bush.gif) | ![Hilbert Curve](output/9-hilbert-curve.gif) | ![Crystal](output/10-crystal.gif) |
 
 ## Overview
 
