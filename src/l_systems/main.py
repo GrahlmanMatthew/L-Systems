@@ -16,9 +16,7 @@ from l_systems.config.constants import (
     UI_DIM_COLOR,
     UI_FONT_SIZE,
     UI_PADDING,
-    WINDOW_HEIGHT,
     WINDOW_TITLE,
-    WINDOW_WIDTH,
 )
 from l_systems.config.settings import FPS_TARGET, SEGMENTS_PER_FRAME
 from l_systems.core.presets import get_preset, preset_count
@@ -43,13 +41,13 @@ class AppState:
     segments_per_frame: int
 
 
-def load_preset(index: int) -> AppState:
+def load_preset(index: int, width: int, height: int) -> AppState:
     preset = get_preset(index)
     l_string = preset.system.expand(preset.iterations)
     segments = build_segments(
         l_string,
-        start_x=WINDOW_WIDTH * preset.start_x_ratio,
-        start_y=WINDOW_HEIGHT * preset.start_y_ratio,
+        start_x=width * preset.start_x_ratio,
+        start_y=height * preset.start_y_ratio,
         start_heading=preset.start_heading,
         segment_length=preset.segment_length,
         angle=preset.system.angle,
@@ -73,6 +71,8 @@ def load_preset(index: int) -> AppState:
 def handle_events(
     events: list[pygame.event.Event],
     state: AppState,
+    width: int,
+    height: int,
 ) -> AppState:
     for event in events:
         if event.type == pygame.QUIT:
@@ -86,7 +86,7 @@ def handle_events(
             if event.key in preset_keys:
                 index = event.key - pygame.K_1
                 if index < preset_count():
-                    state = load_preset(index)
+                    state = load_preset(index, width, height)
 
             elif event.key == pygame.K_SPACE:
                 state = replace(state, is_animating=not state.is_animating)
@@ -147,8 +147,8 @@ def draw_hud(surface: pygame.Surface, state: AppState) -> None:
         y += r.get_height() + 4
 
     hint = font.render(_HINT_TEXT, True, UI_DIM_COLOR)
-    hint_x = (WINDOW_WIDTH - hint.get_width()) // 2
-    hint_y = WINDOW_HEIGHT - hint.get_height() - UI_PADDING
+    hint_x = (surface.get_width() - hint.get_width()) // 2
+    hint_y = surface.get_height() - hint.get_height() - UI_PADDING
     surface.blit(hint, (hint_x, hint_y))
 
 
@@ -162,15 +162,17 @@ def _save_screenshot(surface: pygame.Surface) -> None:
 def main() -> None:
     logger.info("Starting %s v0.1.0", WINDOW_TITLE)
     pygame.init()
-    surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+    info = pygame.display.Info()
+    width, height = info.current_w, info.current_h
+    surface = pygame.display.set_mode((width, height), pygame.NOFRAME)
     pygame.display.set_caption(WINDOW_TITLE)
     clock = pygame.time.Clock()
 
-    state = load_preset(0)
+    state = load_preset(0, width, height)
 
     while True:
         events = pygame.event.get()
-        state = handle_events(events, state)
+        state = handle_events(events, state, width, height)
         state = update(state)
         draw(surface, state)
         pygame.display.flip()

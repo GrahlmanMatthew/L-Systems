@@ -51,11 +51,15 @@ git clone https://github.com/GrahlmanMatthew/L-Systems.git
 cd l-systems
 
 uv venv
-source .venv/Scripts/activate   # Windows (Git Bash)
-# source .venv/bin/activate      # macOS / Linux
+source .venv/Scripts/activate        # Windows (Git Bash)
+# .venv\Scripts\Activate.ps1         # Windows (PowerShell — run once: Set-ExecutionPolicy RemoteSigned -Scope CurrentUser)
+# source .venv/bin/activate          # macOS / Linux
 
 uv pip install -e ".[dev]"
 ```
+
+> **Broken venv?** If you see `No Python at '...'` after a `uv` upgrade or Python re-install,
+> delete and recreate the venv: `rm -rf .venv && uv venv && uv pip install -e ".[dev]"`
 
 ### Pre-commit hooks (first time only)
 

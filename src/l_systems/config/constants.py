@@ -1,5 +1,3 @@
-WINDOW_WIDTH: int = 1200
-WINDOW_HEIGHT: int = 800
 WINDOW_TITLE: str = "L-Systems"
 
 BACKGROUND_COLOR: tuple[int, int, int] = (15, 15, 20)
