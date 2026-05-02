@@ -18,9 +18,9 @@ from l_systems.config.constants import (
     UI_PADDING,
     WINDOW_TITLE,
 )
-from l_systems.config.settings import FPS_TARGET, SEGMENTS_PER_FRAME
+from l_systems.config.settings import DISPLAY_INDEX, FPS_TARGET, SEGMENTS_PER_FRAME
 from l_systems.core.presets import get_preset, preset_count
-from l_systems.renderer.turtle_renderer import Segment, build_segments
+from l_systems.renderer.turtle_renderer import Segment, build_segments, fit_segments
 
 logging.basicConfig(
     level=logging.DEBUG if os.environ.get("DEBUG") else logging.INFO,
@@ -29,7 +29,35 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-_HINT_TEXT = "[1-6] preset  [Space] pause  [R] restart  [+/-] speed  [S] save  [Esc] quit"
+_HINT_TEXT = "[1-9, 0] preset  [Space] pause  [R] restart  [+/-] speed  [S] save  [Esc] quit"
+
+# Maps key constants to preset indices (0-based). K_0 maps to index 9.
+_PRESET_KEY_MAP: dict[int, int] = {}
+
+_ui_font: pygame.font.Font | None = None
+
+
+def _get_ui_font() -> pygame.font.Font:
+    global _ui_font
+    if _ui_font is None:
+        _ui_font = pygame.font.SysFont("Segoe UI", UI_FONT_SIZE)
+    return _ui_font
+
+
+def _build_preset_key_map() -> dict[int, int]:
+    keys = [
+        pygame.K_1,
+        pygame.K_2,
+        pygame.K_3,
+        pygame.K_4,
+        pygame.K_5,
+        pygame.K_6,
+        pygame.K_7,
+        pygame.K_8,
+        pygame.K_9,
+        pygame.K_0,
+    ]
+    return {k: i for i, k in enumerate(keys)}
 
 
 @dataclass
@@ -44,7 +72,7 @@ class AppState:
 def load_preset(index: int, width: int, height: int) -> AppState:
     preset = get_preset(index)
     l_string = preset.system.expand(preset.iterations)
-    segments = build_segments(
+    raw_segments = build_segments(
         l_string,
         start_x=width * preset.start_x_ratio,
         start_y=height * preset.start_y_ratio,
@@ -52,6 +80,7 @@ def load_preset(index: int, width: int, height: int) -> AppState:
         segment_length=preset.segment_length,
         angle=preset.system.angle,
     )
+    segments = fit_segments(raw_segments, width, height)
     logger.info(
         "Loaded preset %d/%d '%s' — %d segments",
         index + 1,
@@ -82,9 +111,8 @@ def handle_events(
             if event.key == pygame.K_ESCAPE:
                 raise SystemExit
 
-            preset_keys = (pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4, pygame.K_5, pygame.K_6)
-            if event.key in preset_keys:
-                index = event.key - pygame.K_1
+            if event.key in _PRESET_KEY_MAP:
+                index = _PRESET_KEY_MAP[event.key]
                 if index < preset_count():
                     state = load_preset(index, width, height)
 
@@ -123,7 +151,7 @@ def draw(surface: pygame.Surface, state: AppState) -> None:
 
 
 def draw_hud(surface: pygame.Surface, state: AppState) -> None:
-    font = pygame.font.SysFont("monospace", UI_FONT_SIZE)
+    font = _get_ui_font()
     preset = get_preset(state.preset_index)
 
     top_lines = [
@@ -162,9 +190,14 @@ def _save_screenshot(surface: pygame.Surface) -> None:
 def main() -> None:
     logger.info("Starting %s v0.1.0", WINDOW_TITLE)
     pygame.init()
-    info = pygame.display.Info()
-    width, height = info.current_w, info.current_h
-    surface = pygame.display.set_mode((width, height), pygame.NOFRAME)
+
+    global _PRESET_KEY_MAP
+    _PRESET_KEY_MAP = _build_preset_key_map()
+
+    desktop_sizes = pygame.display.get_desktop_sizes()
+    display_idx = DISPLAY_INDEX if len(desktop_sizes) > DISPLAY_INDEX else 0
+    width, height = desktop_sizes[display_idx]
+    surface = pygame.display.set_mode((width, height), pygame.NOFRAME, display=display_idx)
     pygame.display.set_caption(WINDOW_TITLE)
     clock = pygame.time.Clock()
 

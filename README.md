@@ -80,7 +80,7 @@ python -m l_systems
 
 | Key | Action |
 |-----|--------|
-| `1` – `6` | Switch to preset |
+| `1` – `9`, `0` | Switch to preset (1–9 = presets 1–9, `0` = preset 10) |
 | `Space` | Pause / resume animation |
 | `R` | Restart current preset |
 | `+` / `=` | Increase draw speed |
@@ -96,6 +96,7 @@ Optional environment variables (copy `.env.example` to `.env`):
 |----------|---------|-------------|
 | `FPS_TARGET` | `60` | Target frames per second |
 | `SEGMENTS_PER_FRAME` | `8` | Segments drawn per frame — controls animation speed |
+| `DISPLAY_INDEX` | `0` | Monitor to use (0 = primary). Set to `1` for a second monitor |
 | `DEBUG` | _(unset)_ | Set to any value to enable debug logging |
 
 ## Running the tests

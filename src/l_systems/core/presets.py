@@ -95,6 +95,67 @@ PRESETS: list[Preset] = [
         start_x_ratio=0.45,
         start_y_ratio=0.55,
     ),
+    Preset(
+        name="Lévy C Curve",
+        system=LSystem(
+            axiom="F",
+            rules={
+                "F": "+F--F+",
+            },
+            angle=45.0,
+        ),
+        iterations=14,
+        segment_length=6.0,
+        start_heading=0.0,
+        start_x_ratio=0.2,
+        start_y_ratio=0.5,
+    ),
+    Preset(
+        name="Algae Bush",
+        system=LSystem(
+            axiom="F",
+            rules={
+                "F": "FF-[-F+F+F]+[+F-F-F]",
+            },
+            angle=22.5,
+        ),
+        iterations=4,
+        segment_length=8.0,
+        start_heading=90.0,
+        start_x_ratio=0.5,
+        start_y_ratio=0.95,
+    ),
+    Preset(
+        name="Hilbert Curve",
+        system=LSystem(
+            axiom="A",
+            rules={
+                "A": "+BF-AFA-FB+",
+                "B": "-AF+BFB+FA-",
+            },
+            angle=90.0,
+        ),
+        iterations=6,
+        segment_length=8.0,
+        start_heading=0.0,
+        start_x_ratio=0.1,
+        start_y_ratio=0.1,
+    ),
+    Preset(
+        name="Crystal",
+        system=LSystem(
+            axiom="F+F+F+F",
+            rules={
+                "F": "FF+F++F+F",
+            },
+            angle=90.0,
+        ),
+        iterations=4,
+        segment_length=8.0,
+        start_heading=0.0,
+        start_x_ratio=0.1,
+        start_y_ratio=0.5,
+    ),
 ]
 
 

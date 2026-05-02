@@ -7,19 +7,18 @@ def test_preset_count_matches_list():
     assert preset_count() == len(PRESETS)
 
 
-def test_preset_count_is_six():
-    assert preset_count() == 6
+def test_preset_count_is_ten():
+    assert preset_count() == 10
 
 
-@pytest.mark.parametrize("index", range(6))
+@pytest.mark.parametrize("index", range(10))
 def test_get_preset_returns_correct_preset(index: int):
-    preset = get_preset(index)
-    assert preset is PRESETS[index]
+    assert get_preset(index) is PRESETS[index]
 
 
 def test_get_preset_wraps_on_overflow():
-    assert get_preset(6) is PRESETS[0]
-    assert get_preset(7) is PRESETS[1]
+    assert get_preset(10) is PRESETS[0]
+    assert get_preset(11) is PRESETS[1]
 
 
 @pytest.mark.parametrize("preset", PRESETS)
