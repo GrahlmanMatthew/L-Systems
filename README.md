@@ -9,7 +9,7 @@ A Lindenmayer System visualiser — watch fractal plants grow branch by branch i
 
 <!-- Add demo GIF here before merging to main -->
 
-## How it works
+## Overview
 
 An L-System is a string-rewriting grammar. You start with a short axiom string (`X`) and a
 set of production rules (`X → F+[[X]-X]-F[-FX]+X`, `F → FF`). Each iteration substitutes
@@ -44,7 +44,7 @@ one by one per frame, so you watch the whole structure emerge from a single poin
   powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
   ```
 
-## Installation and setup
+## Installation and Setup
 
 ```bash
 git clone https://github.com/GrahlmanMatthew/L-Systems.git
@@ -61,7 +61,7 @@ uv pip install -e ".[dev]"
 > **Broken venv?** If you see `No Python at '...'` after a `uv` upgrade or Python re-install,
 > delete and recreate the venv: `rm -rf .venv && uv venv && uv pip install -e ".[dev]"`
 
-### Pre-commit hooks (first time only)
+### Pre-commit Hooks (first time only)
 
 ```bash
 pip install pre-commit
@@ -99,7 +99,7 @@ Optional environment variables (copy `.env.example` to `.env`):
 | `DISPLAY_INDEX` | `0` | Monitor to use (0 = primary). Set to `1` for a second monitor |
 | `DEBUG` | _(unset)_ | Set to any value to enable debug logging |
 
-## Running the tests
+## Running the Tests
 
 ```bash
 pytest
@@ -113,5 +113,3 @@ ruff format --check src tests
 ```
 
 ---
-
-© 2026 Matthew Grahlman. All rights reserved.
