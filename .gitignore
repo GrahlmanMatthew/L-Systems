@@ -1,0 +1,29 @@
+# Environment
+.env
+.env.local
+.env.*.local
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.ruff_cache/
+dist/
+build/
+*.egg-info/
+
+# Output (keep folder, ignore contents)
+output/*
+!output/.gitkeep
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+logs/
